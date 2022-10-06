@@ -5,10 +5,10 @@ const Task = (props) => {
   const [Taskdate, setTaskDate] = useState(props.item.date.toISOString());
 
   return (
-    <span>
+    <div>
       <p>{TaskName}</p>
       <p>{Taskdate}</p>
-    </span>
+    </div>
   );
 };
 

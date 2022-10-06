@@ -17,10 +17,10 @@ export const App = () => {
     },
   ];
   return (
-    <span>
+    <div>
       <Task item={tasks[0]} />
       <Task item={tasks[1]} />
       <Task item={tasks[2]} />
-    </span>
+    </div>
   );
 };

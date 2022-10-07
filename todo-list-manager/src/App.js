@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Tasks from "./components/Tasks";
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, onValue, set, push } from "firebase/database";
+import { getDatabase, ref, onValue, set } from "firebase/database";
 import { InsertInvitation } from "@mui/icons-material";
 
 const firebaseConfig = {
@@ -52,9 +52,9 @@ const INITIAL_TASKS = [
 
 const AddTaskDB = (taskobj) => {
   const db = getDatabase();
-  const reference = ref(db, "/tasks/");
+  const reference = ref(db, "/tasks/" + taskobj.id);
 
-  push(reference, {
+  set(reference, {
     id: taskobj.id,
     name: taskobj.name,
     creationdate: taskobj.creationdate,

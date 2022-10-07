@@ -9,13 +9,13 @@ const IndividualTask = (props) => {
   console.log("IndividualTask.js");
   return (
     <div>
-      {/* button for show description */}
+      <button>Show Description</button>
       <p>{TaskName}</p>
       <p>{TaskCreationDate.toString()}</p>
       <p>{TaskDueDate.toString()}</p>
       <p>{TaskState}</p>
-      {/* button for edit */}
-      {/* button for delete */}
+      <button>Edit</button>
+      <button>Delete</button>
     </div>
   );
 };

@@ -5,6 +5,9 @@ const Tasks = (props) => {
   console.log("Tasks.js");
   return (
     <div>
+      <nav>
+      <button>Add Task</button>
+      </nav>
       {props.items.map((item) => (
         <IndividualTask
           key={item.id}
@@ -15,13 +18,7 @@ const Tasks = (props) => {
           description={item.description}
         />
       ))}
-      {/* <IndividualTask
-        name={props.items[0].name}
-        creationdate={props.items[0].creationdate}
-        duedate={props.items[0].duedate}
-        taskstate={props.items[0].state}
-        description={props.items[0].description}
-      /> */}
+      
     </div>
   );
 };

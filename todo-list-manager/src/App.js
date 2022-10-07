@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Tasks from "./components/Tasks";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue, set } from "firebase/database";
-import { InsertInvitation } from "@mui/icons-material";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBjePKZ1IDFKo9Ikyloawr36whBxIZLAi0",
@@ -64,14 +63,16 @@ const AddTaskDB = (taskobj) => {
   });
 };
 
+let DBTASKS = [];
+
 const GetTasksDB = () => {
   const db = getDatabase();
   const reference = ref(db, "/tasks/");
   onValue(reference, (snapshot) => {
     console.log(snapshot.val());
+    DBTASKS = snapshot.val();
   });
 };
-
 //Initializing the Firebase with some tasks
 // AddTaskDB(INITIAL_TASKS[0]);
 // AddTaskDB(INITIAL_TASKS[1]);
@@ -85,7 +86,9 @@ export const App = () => {
   console.log("App.js");
   return (
     <div>
-      {/* button for adding new task */}
+      <nav>
+        <button>Add Task</button>
+      </nav>
       <Tasks items={tasks} />
       {/* button for deleting using IsSelected */}
     </div>

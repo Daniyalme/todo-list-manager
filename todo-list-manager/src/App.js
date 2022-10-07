@@ -17,10 +17,53 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase();
 
+let DBTASKS = [];
+
+const GetTasksDB = () => {
+  const db = getDatabase();
+  const reference = ref(db, "/tasks/");
+  onValue(reference, (snapshot) => {
+    console.log(snapshot.val());
+    DBTASKS = snapshot.val();
+  });
+};
+
 const addTaskDB = (db, task) => {
-  //Change the Function for single Task Add
+  const tasks = GetTasksDB();
+  const maxid = Math.max(tasks.map((task) => task.id));
+  const Newid = maxid + 1;
+
+  const reference = ref(db, "/tasks/");
+  set(ref, {
+    id: Newid,
+    ...task,
+  });
+
+  console.log("New Task Added!");
   return 0;
 };
+
+// const AddTaskDB = (taskobj) => {
+//   const db = getDatabase();
+//   const reference = ref(db, "/tasks/" + taskobj.id);
+
+//   set(reference, {
+//     id: taskobj.id,
+//     name: taskobj.name,
+//     creationdate: taskobj.creationdate,
+//     duedate: taskobj.duedate,
+//     state: taskobj.state,
+//     description: taskobj.description,
+//   });
+// };
+
+//Initializing the Firebase with some tasks
+// AddTaskDB(INITIAL_TASKS[0]);
+// AddTaskDB(INITIAL_TASKS[1]);
+// AddTaskDB(INITIAL_TASKS[2]);
+
+console.log("Set Firebase!");
+GetTasksDB();
 
 const INITIAL_TASKS = [
   {
@@ -48,37 +91,6 @@ const INITIAL_TASKS = [
     description: "Homework 2 is due to 2022/04/04",
   },
 ];
-
-const AddTaskDB = (taskobj) => {
-  const db = getDatabase();
-  const reference = ref(db, "/tasks/" + taskobj.id);
-
-  set(reference, {
-    id: taskobj.id,
-    name: taskobj.name,
-    creationdate: taskobj.creationdate,
-    duedate: taskobj.duedate,
-    state: taskobj.state,
-    description: taskobj.description,
-  });
-};
-
-let DBTASKS = [];
-
-const GetTasksDB = () => {
-  const db = getDatabase();
-  const reference = ref(db, "/tasks/");
-  onValue(reference, (snapshot) => {
-    console.log(snapshot.val());
-    DBTASKS = snapshot.val();
-  });
-};
-//Initializing the Firebase with some tasks
-// AddTaskDB(INITIAL_TASKS[0]);
-// AddTaskDB(INITIAL_TASKS[1]);
-// AddTaskDB(INITIAL_TASKS[2]);
-console.log("Set Firebase!");
-GetTasksDB();
 
 export const App = () => {
   const [tasks, setTasks] = useState(INITIAL_TASKS);

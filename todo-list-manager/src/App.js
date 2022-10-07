@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import Tasks from "./components/Tasks";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue, set } from "firebase/database";
@@ -93,16 +93,22 @@ const INITIAL_TASKS = [
 ];
 
 export const App = () => {
+  //Use Redux instead of useState for tasks and isSelected
   const [tasks, setTasks] = useState(INITIAL_TASKS);
   const [IsSelected, setIsSelected] = useState(false);
-  console.log("App.js");
+  const [isNewTaskClicked, setIsNewTaskClicked] = useState(false);
+
+  const NewTaskButtonHandler = () => {
+    setIsNewTaskClicked(true);
+  };
+
   return (
-    <div>
-      <nav>
-        <button>Add Task</button>
-      </nav>
+    <Fragment>
+      {isNewTaskClicked && <div> Add Task Modal</div>}
+      <div>
+        <button onClick={NewTaskButtonHandler}>New Task</button>
+      </div>
       <Tasks items={tasks} />
-      {/* button for deleting using IsSelected */}
-    </div>
+    </Fragment>
   );
 };

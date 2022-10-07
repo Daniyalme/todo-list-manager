@@ -5,9 +5,7 @@ const Tasks = (props) => {
   console.log("Tasks.js");
   return (
     <div>
-      <nav>
-      <button>Add Task</button>
-      </nav>
+      {/* Add A Table from Material UI/Emotion for this <div> */}
       {props.items.map((item) => (
         <IndividualTask
           key={item.id}
@@ -18,7 +16,6 @@ const Tasks = (props) => {
           description={item.description}
         />
       ))}
-      
     </div>
   );
 };

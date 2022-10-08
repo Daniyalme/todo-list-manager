@@ -1,7 +1,8 @@
-import React, { useState, Fragment } from "react";
-import Tasks from "./components/Tasks";
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, onValue, set } from "firebase/database";
+import React, { useState, Fragment } from "react";
+import Tasks from "./components/Tasks";
+import NewTaskModal from "./components/NewTaskModal";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBjePKZ1IDFKo9Ikyloawr36whBxIZLAi0",
@@ -62,7 +63,6 @@ const addTaskDB = (db, task) => {
 // AddTaskDB(INITIAL_TASKS[1]);
 // AddTaskDB(INITIAL_TASKS[2]);
 
-console.log("Set Firebase!");
 GetTasksDB();
 
 const INITIAL_TASKS = [
@@ -104,7 +104,7 @@ export const App = () => {
 
   return (
     <Fragment>
-      {isNewTaskClicked && <div> Add Task Modal</div>}
+      {isNewTaskClicked && <NewTaskModal />}
       <div>
         <button onClick={NewTaskButtonHandler}>New Task</button>
       </div>

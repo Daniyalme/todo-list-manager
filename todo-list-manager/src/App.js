@@ -1,7 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, onValue, set } from "firebase/database";
 import React, { useState, Fragment } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getDatabase, ref, onValue, set } from "firebase/database";
+
 import Tasks from "./components/Tasks";
+import { tasksActions } from "./store/AllTaskSlice";
+import { NewTaskModalActions } from "./store/NewTaskModalSlice";
 import NewTaskModal from "./components/NewTaskModal";
 
 const firebaseConfig = {
@@ -20,7 +24,7 @@ const db = getDatabase();
 
 let DBTASKS = [];
 
-const GetTasksDB = () => {
+const getTasksDB = () => {
   const db = getDatabase();
   const reference = ref(db, "/tasks/");
   onValue(reference, (snapshot) => {
@@ -30,7 +34,7 @@ const GetTasksDB = () => {
 };
 
 const addTaskDB = (db, task) => {
-  const tasks = GetTasksDB();
+  const tasks = getTasksDB();
   const maxid = Math.max(tasks.map((task) => task.id));
   const Newid = maxid + 1;
 
@@ -63,7 +67,7 @@ const addTaskDB = (db, task) => {
 // AddTaskDB(INITIAL_TASKS[1]);
 // AddTaskDB(INITIAL_TASKS[2]);
 
-GetTasksDB();
+// getTasksDB();
 
 const INITIAL_TASKS = [
   {
@@ -92,21 +96,32 @@ const INITIAL_TASKS = [
   },
 ];
 
+// const dispatch = useDispatch();
+// dispatch(tasksActions.setTasks(INITIAL_TASKS));
+
 export const App = () => {
+  const dispatch = useDispatch();
   //Use Redux instead of useState for tasks and isSelected
-  const [tasks, setTasks] = useState(INITIAL_TASKS);
-  const [IsSelected, setIsSelected] = useState(false);
-  const [isNewTaskClicked, setIsNewTaskClicked] = useState(false);
+  // const [tasks, setTasks] = useState(INITIAL_TASKS);
+  const tasks = useSelector((state) => state.tasks.AllTasks);
+  const ShowNewTaskModal = useSelector(
+    (state) => state.newtaskmodal.ShowNewTaskModal
+  );
+  // const [IsSelected, setIsSelected] = useState(false);
+  // const [ShowNewTaskModal, setShowNewTaskModal] = useState(false);
 
   const NewTaskButtonHandler = () => {
-    setIsNewTaskClicked(true);
+    // setShowNewTaskModal(true);
+    dispatch(NewTaskModalActions.show());
   };
 
   return (
     <Fragment>
-      {isNewTaskClicked && <NewTaskModal />}
+      {ShowNewTaskModal && <NewTaskModal />}
       <div>
-        <button onClick={NewTaskButtonHandler}>New Task</button>
+        <button type="button" onClick={NewTaskButtonHandler}>
+          New Task
+        </button>
       </div>
       <Tasks items={tasks} />
     </Fragment>

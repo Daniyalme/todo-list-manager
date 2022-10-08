@@ -1,12 +1,20 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { NewTaskModalActions } from "../store/NewTaskModalSlice";
 
 const NewTaskModal = () => {
+  const dispatch = useDispatch();
+
   const InputNameHandler = (event) => {
     console.log(event.target.value);
   };
 
   const InputDescriptionHandler = (event) => {
     console.log(event.target.value);
+  };
+
+  const ClickCancelHandler = () => {
+    dispatch(NewTaskModalActions.hide());
   };
 
   return (
@@ -24,8 +32,10 @@ const NewTaskModal = () => {
             placeholder={"Description"}
             onChange={InputDescriptionHandler}
           />
-          <button>Cancel</button>
-          <button>Add Task</button>
+          <button type="button" onClick={ClickCancelHandler}>
+            Cancel
+          </button>
+          <button type="submit">Add Task</button>
         </form>
       </div>
       <div className="modal-footer"></div>

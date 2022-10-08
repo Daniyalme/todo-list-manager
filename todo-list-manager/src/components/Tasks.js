@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import IndividualTask from "./IndividualTask";
 
 const Tasks = (props) => {
-  console.log("Tasks.js");
   return (
     <div>
       {/* Add A Table from Material UI/Emotion for this <div> */}

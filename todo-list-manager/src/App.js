@@ -112,7 +112,7 @@ export const App = () => {
       .catch((error) => {
         console.error(error);
       });
-  }, [tasks]);
+  }, []);
 
   const NewTaskButtonHandler = () => {
     dispatch(NewTaskModalActions.show());
@@ -125,7 +125,7 @@ export const App = () => {
         <div>
           {ShowNewTaskModal && (
             <NewTaskModal
-              maxid={Math.max(tasks.map((taskobj) => taskobj.id))}
+              maxid={Math.max(...tasks.map((taskobj) => parseInt(taskobj.id)))}
             />
           )}
           <div>

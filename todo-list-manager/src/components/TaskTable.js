@@ -20,6 +20,7 @@ const TaskTable = (props) => {
             <TableCell>Due To</TableCell>
             <TableCell>Created At</TableCell>
             <TableCell>Status</TableCell>
+            <TableCell />
           </TableRow>
         </TableHead>
         <TableBody>

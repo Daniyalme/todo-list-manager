@@ -50,8 +50,8 @@ export const App = () => {
           const DB_TASKS = snapshot
             .val()
             .filter((task) => typeof task !== "undefined");
-          dispatch(tasksActions.setTasks(DB_TASKS));
           setIsLoading(false);
+          dispatch(tasksActions.setTasks(DB_TASKS));
           console.log("Data Received!");
         } else {
           console.log("No data available");
@@ -60,7 +60,9 @@ export const App = () => {
         }
       })
       .catch((error) => {
+        console.log("Error Occured");
         console.error(error);
+        setIsLoading(false);
       });
   }, []);
 

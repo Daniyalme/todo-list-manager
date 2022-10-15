@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { tasksActions } from "../store/AllTaskSlice";
+
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,8 +12,6 @@ import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { Button, Icon } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import InfoIcon from "@mui/icons-material/Info";
@@ -28,8 +29,20 @@ import EditIcon from "@mui/icons-material/Edit";
 const TaskTableRow = (props) => {
   const { row } = props;
   const [ShowDetails, setShowDetails] = useState(false);
-  const [IsChecked, setIsChecked] = useState(false);
   const [IsDone, setIsDone] = useState(row.state === "Done" ? true : false);
+  const dispatch = useDispatch();
+
+  const MarkDoneButtonClickHandler = () => {
+    let new_row = { ...row };
+    new_row.state = IsDone ? "Pending" : "Done";
+    dispatch(tasksActions.editTask(new_row));
+    setIsDone(!IsDone);
+  };
+
+  const DeleteButtonClickHandler = () => {
+    console.log("Showing Delete Modal");
+    // dispatch(tasksActions.deleteMultipleTasks([row]));
+  };
 
   return (
     <React.Fragment>
@@ -37,12 +50,6 @@ const TaskTableRow = (props) => {
         <TableCell>
           <Checkbox></Checkbox>
         </TableCell>
-        {/* <TableCell>
-          <IconButton onClick={() => setShowDetails(!ShowDetails)}>
-            {ShowDetails && <KeyboardArrowUpIcon />}
-            {!ShowDetails && <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell> */}
         <TableCell
           component="th"
           scope="row"
@@ -72,8 +79,9 @@ const TaskTableRow = (props) => {
         <TableCell>
           <IconButton
             aria-label="markdone"
-            title={!IsDone ? "Mark Done" : "Mark UnDone"}
+            title={!IsDone ? "Mark as Done" : "Mark as Pending"}
             sx={{ "& :hover": { color: !IsDone ? green[700] : red[300] } }}
+            onClick={MarkDoneButtonClickHandler}
           >
             {!IsDone && <DoneAllIcon />}
             {IsDone && <RemoveDoneIcon />}
@@ -89,6 +97,7 @@ const TaskTableRow = (props) => {
             aria-label="delete"
             title="Delete"
             sx={{ "& :hover": { color: red[600] } }}
+            onClick={DeleteButtonClickHandler}
           >
             <DeleteForeverIcon />
           </IconButton>
@@ -101,9 +110,6 @@ const TaskTableRow = (props) => {
             <InfoIcon variant="filled" />
           </IconButton>
         </TableCell>
-        {/* Mark as Done Button<IconButton></IconButton> */}
-        {/* Delete Button<IconButton></IconButton> */}
-        {/* Edit Button<IconButton></IconButton> */}
       </TableRow>
 
       <TableRow>
@@ -111,7 +117,11 @@ const TaskTableRow = (props) => {
           <Collapse in={ShowDetails} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                {row.name + " Details:"}
+                {IsDone && <DoneAllIcon fontSize="small" color="success" />}
+                {!IsDone && (
+                  <PendingActionsIcon fontSize="small" color="primary" />
+                )}
+                {" " + row.name + " Details:"}
               </Typography>
               {row.description}
             </Box>

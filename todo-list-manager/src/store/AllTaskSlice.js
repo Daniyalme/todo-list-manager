@@ -11,10 +11,21 @@ const AllTasksSlice = createSlice({
       state.AllTasks = [...state.AllTasks, action.payload];
     },
     editTask(state, action) {
-      state.AllTasks = [...state.AllTasks, action.payload];
+      const objIndex = state.AllTasks.findIndex(
+        (obj) => obj.id === action.payload.id
+      );
+      state.AllTasks[objIndex] = action.payload;
     },
     deleteTask(state, action) {
-      //delete the payload from the tasks
+      state.AllTasks = state.AllTasks.filter(
+        (task) => task.id !== action.payload.id
+      );
+    },
+    deleteMultipleTasks(state, action) {
+      const DeleteTasksId = action.payload.map((task) => task.id);
+      state.AllTasks = state.AllTasks.filter(
+        (task) => !DeleteTasksId.includes(task.id)
+      );
     },
   },
 });

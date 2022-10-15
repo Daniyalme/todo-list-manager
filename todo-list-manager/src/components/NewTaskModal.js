@@ -13,10 +13,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import CloseIcon from "@mui/icons-material/Close";
+import Stack from "@mui/material/Stack";
+import Grid from "@mui/material/Grid";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { IconButton } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { css, cx } from "@emotion/css";
 
 const NewTaskModal = (props) => {
@@ -32,7 +34,7 @@ const NewTaskModal = (props) => {
   };
 
   const InputDueDateHandler = (event) => {
-    console.log(event);
+    console.log(event.target.value);
   };
 
   const HideModal = () => {
@@ -48,7 +50,12 @@ const NewTaskModal = (props) => {
   };
 
   return (
-    <Dialog open={ShowModal} onClose={ModalCloseHandler}>
+    <Dialog
+      open={ShowModal}
+      onClose={ModalCloseHandler}
+      fullWidth
+      maxWidth="sm"
+    >
       <DialogTitle>Add Task</DialogTitle>
       <IconButton
         className={css`
@@ -61,31 +68,54 @@ const NewTaskModal = (props) => {
         <CloseIcon />
       </IconButton>
       <DialogContent>
-        <TextField
-          autoFocus
-          id="name"
-          label="Task Name"
-          type="email"
-          fullWidth
-          variant="outlined"
-          onChange={InputNameHandler}
-        />
-        {/* <Input
-          autoFocus
-          id="duedate"
-          label="Due To"
-          type={"datetime-local"}
-          variant="outlined"
-          onChange={InputDueDateHandler}
-        /> */}
-        {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DateTimePicker
-            label="Date&Time picker"
-            onChange={InputDueDateHandler}
-          />
-        </LocalizationProvider> */}
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              autoFocus
+              id="name"
+              label="Name"
+              type="text"
+              fullWidth
+              variant="outlined"
+              onChange={InputNameHandler}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              className={css`
+                width: 100%;
+              `}
+              onChange={InputDueDateHandler}
+              id="datetime-local"
+              label="Due To"
+              type="datetime-local"
+              defaultValue="2017-05-24T10:30"
+              sx={{ width: 250 }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              autoFocus
+              id="description"
+              label="Description"
+              type="text"
+              fullWidth
+              variant="outlined"
+              onChange={InputDescriptionHandler}
+            />
+          </Grid>
+
+          <Grid container marginTop={3} justifyContent={"flex-end"}>
+            <Button variant="contained" size="large">
+              Add
+            </Button>
+          </Grid>
+        </Grid>
       </DialogContent>
-      <Box>
+      {/* <Box>
         <form>
           <input
             type={"text"}
@@ -102,7 +132,7 @@ const NewTaskModal = (props) => {
           </button>
           <button type="submit">Add Task</button>
         </form>
-      </Box>
+      </Box> */}
     </Dialog>
   );
 };

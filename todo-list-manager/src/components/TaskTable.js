@@ -8,8 +8,13 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 
 const TaskTable = (props) => {
+  const [EmptyTasks, setEmptyTasks] = useState(
+    props.length === 0 ? true : false
+  );
+
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
@@ -24,9 +29,9 @@ const TaskTable = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {props.items.map((row) => (
-            <TaskTableRow key={row.id} row={row} />
-          ))}
+          {!EmptyTasks &&
+            props.items.map((row) => <TaskTableRow key={row.id} row={row} />)}
+          {EmptyTasks && <Box>No Task Found</Box>}
         </TableBody>
       </Table>
     </TableContainer>

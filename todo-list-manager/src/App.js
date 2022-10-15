@@ -74,7 +74,7 @@ export const App = () => {
           </div>
           {/* {IsAnyTaskAvailable && <Tasks items={tasks} />} */}
           {IsAnyTaskAvailable && <TaskTable items={tasks} />}
-          {!IsAnyTaskAvailable && <p>No Task Here!</p>}
+          {!IsAnyTaskAvailable && <TaskTable items={[]} />}
         </div>
       )}
     </Fragment>

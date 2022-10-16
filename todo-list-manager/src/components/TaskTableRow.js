@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { tasksActions } from "../store/AllTaskSlice";
+import { EditTaskModalActions } from "../store/EditTaskModalSlice";
+
+import { app, db } from "../configs/DBConfig";
+import { ref, set } from "firebase/database";
 
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -26,6 +30,11 @@ import RemoveDoneIcon from "@mui/icons-material/RemoveDone";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import EditIcon from "@mui/icons-material/Edit";
 
+const EditTask_DB = (task) => {
+  const refrence = ref(db, "/tasks/" + task.id);
+  set(refrence, task);
+};
+
 const TaskTableRow = (props) => {
   const { row } = props;
   const [ShowDetails, setShowDetails] = useState(false);
@@ -36,6 +45,7 @@ const TaskTableRow = (props) => {
     let new_row = { ...row };
     new_row.state = IsDone ? "Pending" : "Done";
     dispatch(tasksActions.editTask(new_row));
+    EditTask_DB(new_row);
     setIsDone(!IsDone);
   };
 
@@ -123,7 +133,8 @@ const TaskTableRow = (props) => {
                 )}
                 {" " + row.name + " Details:"}
               </Typography>
-              {row.description}
+              {row.description !== "" && row.description}
+              {row.description === "" && "No Description Available"}
             </Box>
           </Collapse>
         </TableCell>

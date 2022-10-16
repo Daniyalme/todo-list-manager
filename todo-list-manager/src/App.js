@@ -19,7 +19,6 @@ import TaskTable from "./components/TaskTable";
 
 export const App = () => {
   const [IsLoading, setIsLoading] = useState(true);
-  const [IsAnyTaskAvailable, setIsAnyTaskAvailable] = useState(true);
 
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.tasks.AllTasks);
@@ -34,16 +33,18 @@ export const App = () => {
       .then((snapshot) => {
         if (snapshot.exists()) {
           console.log("Getting Data from Database");
+
           const DB_TASKS = snapshot
             .val()
             .filter((task) => typeof task !== "undefined");
+
           setIsLoading(false);
           dispatch(tasksActions.setTasks(DB_TASKS));
           console.log("Data Received!");
         } else {
           console.log("No data available");
           setIsLoading(false);
-          setIsAnyTaskAvailable(false);
+          dispatch(tasksActions.setTasks([]));
         }
       })
       .catch((error) => {
@@ -64,7 +65,9 @@ export const App = () => {
         <div>
           {ShowNewTaskModal && (
             <NewTaskModal
-              maxid={Math.max(...tasks.map((taskobj) => parseInt(taskobj.id)))}
+              maxid={
+                Math.max(...tasks.map((taskobj) => parseInt(taskobj.id))) + 1
+              }
             />
           )}
           <div>
@@ -74,7 +77,7 @@ export const App = () => {
           </div>
           {/* {IsAnyTaskAvailable && <Tasks items={tasks} />} */}
           {IsAnyTaskAvailable && <TaskTable items={tasks} />}
-          {!IsAnyTaskAvailable && <TaskTable items={[]} />}
+          <TaskTable items={tasks} />
         </div>
       )}
     </Fragment>

@@ -15,6 +15,7 @@ import Tasks from "./components/Tasks";
 import { tasksActions } from "./store/AllTaskSlice";
 import { NewTaskModalActions } from "./store/NewTaskModalSlice";
 import NewTaskModal from "./components/NewTaskModal";
+import EditTaskModal from "./components/EditTaskModal";
 import TaskTable from "./components/TaskTable";
 
 export const App = () => {
@@ -25,6 +26,10 @@ export const App = () => {
   const ShowNewTaskModal = useSelector(
     (state) => state.newtaskmodal.ShowNewTaskModal
   );
+  const ShowEditTaskModal = useSelector(
+    (state) => state.edittaskmodal.ShowEditTaskModal
+  );
+  const EditingTask = useSelector((state) => state.edittaskmodal.EditingTask);
 
   useEffect(() => {
     const db = getDatabase();
@@ -58,6 +63,9 @@ export const App = () => {
     dispatch(NewTaskModalActions.show());
   };
 
+  console.log("App.js Edit:", EditingTask);
+  console.log("App.js", ShowEditTaskModal);
+
   return (
     <Fragment>
       {IsLoading && <div>Loading...</div>}
@@ -70,13 +78,13 @@ export const App = () => {
               }
             />
           )}
+          {ShowEditTaskModal && <EditTaskModal task={EditingTask} />}
           <div>
             <Button variant="contained" onClick={NewTaskButtonHandler}>
               New Task
             </Button>
           </div>
           {/* {IsAnyTaskAvailable && <Tasks items={tasks} />} */}
-          {IsAnyTaskAvailable && <TaskTable items={tasks} />}
           <TaskTable items={tasks} />
         </div>
       )}

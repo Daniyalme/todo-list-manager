@@ -54,6 +54,10 @@ const TaskTableRow = (props) => {
     // dispatch(tasksActions.deleteMultipleTasks([row]));
   };
 
+  const EditButtonClickHandler = () => {
+    dispatch(EditTaskModalActions.show(row));
+  };
+
   return (
     <React.Fragment>
       <TableRow hover sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -100,6 +104,7 @@ const TaskTableRow = (props) => {
             aria-label="edit"
             title="Edit"
             sx={{ "& :hover": { color: blue[500] } }}
+            onClick={EditButtonClickHandler}
           >
             <EditIcon />
           </IconButton>

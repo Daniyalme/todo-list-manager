@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { tasksActions } from "../store/AllTaskSlice";
 import { EditTaskModalActions } from "../store/EditTaskModalSlice";
 import { DeleteSingleTaskActions } from "../store/DeleteSingleTaskModalSlice";
+import { DeleteMultipleTaskActions } from "../store/DeleteMultipleTaskModalSlice";
 
 import { app, db } from "../configs/DBConfig";
 import { ref, set } from "firebase/database";
@@ -61,11 +62,19 @@ const TaskTableRow = (props) => {
     dispatch(EditTaskModalActions.show(row));
   };
 
+  const CheckBoxChangeHandler = (event) => {
+    if (event.target.checked) {
+      dispatch(DeleteMultipleTaskActions.AddTask(row));
+    } else {
+      dispatch(DeleteMultipleTaskActions.RemoveTask(row));
+    }
+  };
+
   return (
     <React.Fragment>
       <TableRow hover sx={{ "& > *": { borderBottom: "unset" } }}>
         <TableCell>
-          <Checkbox></Checkbox>
+          <Checkbox onChange={CheckBoxChangeHandler}></Checkbox>
         </TableCell>
         <TableCell
           component="th"

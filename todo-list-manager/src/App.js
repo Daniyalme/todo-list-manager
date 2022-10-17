@@ -9,22 +9,21 @@ import React, { useState, useEffect, Fragment } from "react";
 
 //Material UI & Emotion Imports
 import Button from "@mui/material/Button";
+import { red } from "@mui/material/colors";
+import { IconButton } from "@mui/material";
+import DeleteForever from "@mui/icons-material/DeleteForever";
 
 //Components Import
 import { tasksActions } from "./store/AllTaskSlice";
 import { NewTaskModalActions } from "./store/NewTaskModalSlice";
+import { DeleteMultipleTaskActions } from "./store/DeleteMultipleTaskModalSlice";
 import NewTaskModal from "./components/NewTaskModal";
 import EditTaskModal from "./components/EditTaskModal";
 import TaskTable from "./components/TaskTable";
 import DeleteSingleTaskModal from "./components/DeleteSingleTaskModal";
+import DeleteMultipleTaskModal from "./components/DeleteMultipleTaskModal";
 
 export const App = () => {
-  const [IsLoading, setIsLoading] = useState(true);
-
-  const dispatch = useDispatch();
-
-  const tasks = useSelector((state) => state.tasks.AllTasks);
-
   const ShowNewTaskModal = useSelector(
     (state) => state.newtaskmodal.ShowNewTaskModal
   );
@@ -40,6 +39,25 @@ export const App = () => {
   const SingleDeletingTask = useSelector(
     (state) => state.deletesingletask.DeletingTask
   );
+
+  const ShowDeleteMultipleTaskModal = useSelector(
+    (state) => state.deletemultipletask.ShowModal
+  );
+  const MultipleDeletingTask = useSelector(
+    (state) => state.deletemultipletask.DeletingTasks
+  );
+
+  const dispatch = useDispatch();
+
+  const tasks = useSelector((state) => state.tasks.AllTasks);
+
+  const [IsLoading, setIsLoading] = useState(true);
+  const [IsSomeTaskSelected, setIsSomeTaskSelected] = useState(false);
+
+  useEffect(() => {
+    console.log("USE_EFFECT:", IsSomeTaskSelected);
+    setIsSomeTaskSelected(MultipleDeletingTask.length > 0 ? true : false);
+  }, [MultipleDeletingTask, IsSomeTaskSelected]);
 
   useEffect(() => {
     const db = getDatabase();
@@ -69,12 +87,16 @@ export const App = () => {
       });
   }, []);
 
-  const NewTaskButtonHandler = () => {
+  const DeleteButtonClickHandler = () => {
+    dispatch(DeleteMultipleTaskActions.ShowModal());
+  };
+
+  const NewTaskButtonClickHandler = () => {
     dispatch(NewTaskModalActions.show());
   };
 
-  console.log("App.js Edit:", EditingTask);
-  console.log("App.js", ShowEditTaskModal);
+  console.log("App.js Multiple Delete:", MultipleDeletingTask);
+  console.log("App.js", ShowDeleteMultipleTaskModal);
   const maxid =
     tasks.length === 0
       ? 1
@@ -85,19 +107,24 @@ export const App = () => {
       {IsLoading && <div>Loading...</div>}
       {!IsLoading && (
         <div>
-          {ShowNewTaskModal && (
-            <NewTaskModal
-              maxid={
-                Math.max(...tasks.map((taskobj) => parseInt(taskobj.id))) + 1
-              }
-            />
-          )}
+          {ShowNewTaskModal && <NewTaskModal maxid={maxid} />}
           {ShowEditTaskModal && <EditTaskModal task={EditingTask} />}
           {ShowDeleteSingleTaskModal && <DeleteSingleTaskModal />}
+          {ShowDeleteMultipleTaskModal && <DeleteMultipleTaskModal />}
           <div>
-            <Button variant="contained" onClick={NewTaskButtonHandler}>
+            <Button variant="contained" onClick={NewTaskButtonClickHandler}>
               New Task
             </Button>
+            {IsSomeTaskSelected && (
+              <IconButton
+                color="error"
+                sx={{ "&: hover": { color: red[900] } }}
+                size="large"
+                onClick={DeleteButtonClickHandler}
+              >
+                <DeleteForever />
+              </IconButton>
+            )}
           </div>
           {/* {IsAnyTaskAvailable && <Tasks items={tasks} />} */}
           <TaskTable items={tasks} />

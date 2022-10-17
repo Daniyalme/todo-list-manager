@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
 import { tasksActions } from "../store/AllTaskSlice";
 import { EditTaskModalActions } from "../store/EditTaskModalSlice";
+import { DeleteSingleTaskActions } from "../store/DeleteSingleTaskModalSlice";
 
 import { app, db } from "../configs/DBConfig";
 import { ref, set } from "firebase/database";
@@ -50,7 +52,8 @@ const TaskTableRow = (props) => {
   };
 
   const DeleteButtonClickHandler = () => {
-    console.log("Showing Delete Modal");
+    console.log(row);
+    dispatch(DeleteSingleTaskActions.ShowModal(row));
     // dispatch(tasksActions.deleteMultipleTasks([row]));
   };
 

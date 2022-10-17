@@ -11,25 +11,35 @@ import React, { useState, useEffect, Fragment } from "react";
 import Button from "@mui/material/Button";
 
 //Components Import
-import Tasks from "./components/Tasks";
 import { tasksActions } from "./store/AllTaskSlice";
 import { NewTaskModalActions } from "./store/NewTaskModalSlice";
 import NewTaskModal from "./components/NewTaskModal";
 import EditTaskModal from "./components/EditTaskModal";
 import TaskTable from "./components/TaskTable";
+import DeleteSingleTaskModal from "./components/DeleteSingleTaskModal";
 
 export const App = () => {
   const [IsLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
+
   const tasks = useSelector((state) => state.tasks.AllTasks);
+
   const ShowNewTaskModal = useSelector(
     (state) => state.newtaskmodal.ShowNewTaskModal
   );
+
   const ShowEditTaskModal = useSelector(
     (state) => state.edittaskmodal.ShowEditTaskModal
   );
   const EditingTask = useSelector((state) => state.edittaskmodal.EditingTask);
+
+  const ShowDeleteSingleTaskModal = useSelector(
+    (state) => state.deletesingletask.ShowModal
+  );
+  const SingleDeletingTask = useSelector(
+    (state) => state.deletesingletask.DeletingTask
+  );
 
   useEffect(() => {
     const db = getDatabase();
@@ -65,6 +75,10 @@ export const App = () => {
 
   console.log("App.js Edit:", EditingTask);
   console.log("App.js", ShowEditTaskModal);
+  const maxid =
+    tasks.length === 0
+      ? 1
+      : Math.max(...tasks.map((taskobj) => parseInt(taskobj.id))) + 1;
 
   return (
     <Fragment>
@@ -79,6 +93,7 @@ export const App = () => {
             />
           )}
           {ShowEditTaskModal && <EditTaskModal task={EditingTask} />}
+          {ShowDeleteSingleTaskModal && <DeleteSingleTaskModal />}
           <div>
             <Button variant="contained" onClick={NewTaskButtonHandler}>
               New Task

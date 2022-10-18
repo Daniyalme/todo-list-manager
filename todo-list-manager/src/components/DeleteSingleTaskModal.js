@@ -13,6 +13,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { DeleteSingleTaskActions } from "../store/DeleteSingleTaskModalSlice";
+import { DeleteMultipleTaskActions } from "../store/DeleteMultipleTaskModalSlice";
 import { tasksActions } from "../store/AllTaskSlice";
 import { grey } from "@mui/material/colors";
 
@@ -42,6 +43,7 @@ const DeleteSingleTaskModal = () => {
   const DeleteButtonClickHandler = (event) => {
     event.preventDefault();
     dispatch(tasksActions.deleteMultipleTasks([DeletingTask]));
+    dispatch(DeleteMultipleTaskActions.RemoveTask(DeletingTask));
     DELETE_DB(DeletingTask);
     dispatch(DeleteSingleTaskActions.HideModal());
   };

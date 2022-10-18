@@ -80,11 +80,17 @@ const DeleteMultipleTaskModal = () => {
           <Button
             onClick={CancelButtonClickHandler}
             variant="text"
-            sx={{ color: grey[700] }}
+            sx={{ color: grey[700], borderRadius: 60 }}
           >
             Cancel
           </Button>
-          <Button type="Submit" variant="contained" color="error" autoFocus>
+          <Button
+            sx={{ borderRadius: 60 }}
+            type="Submit"
+            variant="contained"
+            color="error"
+            autoFocus
+          >
             Delete
           </Button>
         </DialogActions>

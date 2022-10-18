@@ -5,6 +5,7 @@ import { ref, set } from "firebase/database";
 
 import { NewTaskModalActions } from "../store/NewTaskModalSlice";
 import { tasksActions } from "../store/AllTaskSlice";
+import ColorButton from "./UI/ColorButton";
 
 import Dialog from "@mui/material/Dialog";
 import TextField from "@mui/material/TextField";
@@ -12,8 +13,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import CloseIcon from "@mui/icons-material/Close";
 import Grid from "@mui/material/Grid";
-import AddIcon from "@mui/icons-material/Add";
-import { Button, IconButton } from "@mui/material";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import Box from "@mui/material/Box";
+import { Button, IconButton, Toolbar } from "@mui/material";
 import { css, cx } from "@emotion/css";
 
 const AddTask_DB = (task) => {
@@ -60,11 +62,12 @@ const NewTaskModal = (props) => {
 
   const SubmitFormHandler = (event) => {
     event.preventDefault();
-
+    const Now = new Date();
+    console.log(Now.toUTCString());
     const task = {
       id: props.maxid,
       name: TaskName,
-      creationdate: new Date().toISOString(),
+      creationdate: Now.toISOString(),
       duedate: TaskDueDate,
       description: TaskDescription,
       state: "Pending",
@@ -82,17 +85,24 @@ const NewTaskModal = (props) => {
       maxWidth="sm"
     >
       <form onSubmit={SubmitFormHandler}>
-        <DialogTitle>Add Task</DialogTitle>
-        <IconButton
-          className={css`
-            position: absolute;
-            right: 24px;
-            top: 12px;
-          `}
-          onClick={CloseButtonHandler}
+        <Box
+          component="span"
+          m={1}
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
         >
-          <CloseIcon />
-        </IconButton>
+          <DialogTitle>Add Task</DialogTitle>
+          <div
+            className={css`
+              margin-right: 15px;
+            `}
+          >
+            <IconButton onClick={CloseButtonHandler}>
+              <CloseIcon />
+            </IconButton>
+          </div>
+        </Box>
         <DialogContent>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
@@ -122,7 +132,6 @@ const NewTaskModal = (props) => {
                 type="datetime-local"
                 required
                 defaultValue={Today.substring(0, 11) + "00:00"}
-                sx={{ width: 250 }}
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -144,9 +153,15 @@ const NewTaskModal = (props) => {
             </Grid>
 
             <Grid container marginTop={3} justifyContent={"flex-end"}>
-              <Button variant="contained" size="large" type="submit">
-                <AddIcon /> {"  Add"}
-              </Button>
+              <ColorButton
+                sx={{ borderRadius: 60 }}
+                variant="contained"
+                startIcon={<AddCircleIcon />}
+                size="large"
+                type="submit"
+              >
+                {"  Add"}
+              </ColorButton>
             </Grid>
           </Grid>
         </DialogContent>

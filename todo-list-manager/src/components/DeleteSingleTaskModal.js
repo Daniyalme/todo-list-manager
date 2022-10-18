@@ -57,7 +57,12 @@ const DeleteSingleTaskModal = () => {
       fullWidth
       maxWidth="xs"
     >
-      <form onSubmit={DeleteButtonClickHandler}>
+      <form
+        onSubmit={DeleteButtonClickHandler}
+        className={css`
+          border-radius: 30px !important;
+        `}
+      >
         <DialogTitle id="alert-dialog-title">
           {"Deleting " + DeletingTask.name + " Data!"}
         </DialogTitle>
@@ -71,11 +76,17 @@ const DeleteSingleTaskModal = () => {
           <Button
             onClick={CancelButtonClickHandler}
             variant="text"
-            sx={{ color: grey[700] }}
+            sx={{ color: grey[700], borderRadius: 60 }}
           >
             Cancel
           </Button>
-          <Button type="Submit" variant="contained" color="error" autoFocus>
+          <Button
+            sx={{ borderRadius: 60 }}
+            type="Submit"
+            variant="contained"
+            color="error"
+            autoFocus
+          >
             Delete
           </Button>
         </DialogActions>

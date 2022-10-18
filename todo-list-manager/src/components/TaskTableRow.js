@@ -1,36 +1,28 @@
 import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { tasksActions } from "../store/AllTaskSlice";
 import { EditTaskModalActions } from "../store/EditTaskModalSlice";
 import { DeleteSingleTaskActions } from "../store/DeleteSingleTaskModalSlice";
 import { DeleteMultipleTaskActions } from "../store/DeleteMultipleTaskModalSlice";
 
-import { app, db } from "../configs/DBConfig";
+import { db } from "../configs/DBConfig";
 import { ref, set } from "firebase/database";
 
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { Button, Icon } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import InfoIcon from "@mui/icons-material/Info";
-import DoneIcon from "@mui/icons-material/Done";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import { blue, red, blueGrey, green } from "@mui/material/colors";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import Done from "@mui/icons-material/Done";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
 import RemoveDoneIcon from "@mui/icons-material/RemoveDone";
-import BorderColorIcon from "@mui/icons-material/BorderColor";
 import EditIcon from "@mui/icons-material/Edit";
 
 const EditTask_DB = (task) => {
@@ -73,23 +65,26 @@ const TaskTableRow = (props) => {
   return (
     <React.Fragment>
       <TableRow hover sx={{ "& > *": { borderBottom: "unset" } }}>
-        <TableCell>
+        <TableCell padding="checkbox">
           <Checkbox onChange={CheckBoxChangeHandler}></Checkbox>
         </TableCell>
         <TableCell
+          align="center"
           component="th"
           scope="row"
           onClick={() => setShowDetails(!ShowDetails)}
         >
           {row.name}
         </TableCell>
-        <TableCell onClick={() => setShowDetails(!ShowDetails)}>
-          {row.duedate}
+        <TableCell align="center" onClick={() => setShowDetails(!ShowDetails)}>
+          {row.duedate.substring(0, 10) + " " + row.duedate.substring(11, 16)}
         </TableCell>
-        <TableCell onClick={() => setShowDetails(!ShowDetails)}>
-          {row.creationdate}
+        <TableCell align="center" onClick={() => setShowDetails(!ShowDetails)}>
+          {row.creationdate.substring(0, 10) +
+            " " +
+            row.creationdate.substring(11, 16)}
         </TableCell>
-        <TableCell onClick={() => setShowDetails(!ShowDetails)}>
+        <TableCell align="center" onClick={() => setShowDetails(!ShowDetails)}>
           {row.state}
           {IsDone && (
             <IconButton>
@@ -102,7 +97,7 @@ const TaskTableRow = (props) => {
             </IconButton>
           )}
         </TableCell>
-        <TableCell>
+        <TableCell align="center">
           <IconButton
             aria-label="markdone"
             title={!IsDone ? "Mark as Done" : "Mark as Pending"}

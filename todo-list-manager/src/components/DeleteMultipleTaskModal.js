@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { app, db } from "../configs/DBConfig";
+import { db } from "../configs/DBConfig";
 import { ref, set } from "firebase/database";
-
-import { css, cx } from "@emotion/css";
 
 import { DeleteMultipleTaskActions } from "../store/DeleteMultipleTaskModalSlice";
 import { tasksActions } from "../store/AllTaskSlice";
@@ -16,13 +14,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { grey } from "@mui/material/colors";
-import { List, ListItem, Typography } from "@mui/material";
-import CircleIcon from "@mui/icons-material/Circle";
 
 const DELETE_MULTIPLE_DB = (tasks) => {
   tasks.map((task) => {
     const reference = ref(db, "/tasks/" + task.id);
     set(reference, null);
+    return 0;
   });
 };
 
@@ -45,7 +42,6 @@ const DeleteMultipleTaskModal = () => {
 
   const DeleteButtonClickHandler = (event) => {
     event.preventDefault();
-    console.log(DeletingTasks);
     dispatch(tasksActions.deleteMultipleTasks([...DeletingTasks]));
     DELETE_MULTIPLE_DB([...DeletingTasks]);
     dispatch(DeleteMultipleTaskActions.RemoveAllTask());

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { app, db } from "../configs/DBConfig";
+import { db } from "../configs/DBConfig";
 import { ref, set } from "firebase/database";
 
 import { NewTaskModalActions } from "../store/NewTaskModalSlice";
@@ -15,8 +15,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import Grid from "@mui/material/Grid";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Box from "@mui/material/Box";
-import { Button, IconButton, Toolbar } from "@mui/material";
-import { css, cx } from "@emotion/css";
+import { IconButton } from "@mui/material";
+import { css } from "@emotion/css";
 
 const AddTask_DB = (task) => {
   const refrence = ref(db, "/tasks/" + task.id);
@@ -63,7 +63,6 @@ const NewTaskModal = (props) => {
   const SubmitFormHandler = (event) => {
     event.preventDefault();
     const Now = new Date();
-    console.log(Now.toUTCString());
     const task = {
       id: props.maxid,
       name: TaskName,

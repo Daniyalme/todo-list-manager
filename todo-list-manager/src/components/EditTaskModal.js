@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { app, db } from "../configs/DBConfig";
+import { db } from "../configs/DBConfig";
 import { ref, set } from "firebase/database";
 
 import { EditTaskModalActions } from "../store/EditTaskModalSlice";
@@ -15,8 +15,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import EditIcon from "@mui/icons-material/Edit";
-import { Button, IconButton } from "@mui/material";
-import { css, cx } from "@emotion/css";
+import { IconButton } from "@mui/material";
+import { css } from "@emotion/css";
 
 const EditTask_DB = (task) => {
   const refrence = ref(db, "/tasks/" + task.id);
@@ -26,14 +26,10 @@ const EditTask_DB = (task) => {
 const EditTaskModal = (props) => {
   let CurrentTask = props.task;
 
-  console.log("EditModal.js:", CurrentTask);
-
   const dispatch = useDispatch();
   const ShowEditTaskModal = useSelector(
     (state) => state.edittaskmodal.ShowEditTaskModal
   );
-
-  console.log("EditModal.js:", ShowEditTaskModal);
 
   const [TaskName, setTaskName] = useState(CurrentTask.name);
   const [TaskDescription, setTaskDescription] = useState(

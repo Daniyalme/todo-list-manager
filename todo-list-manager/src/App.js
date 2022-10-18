@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import { red } from "@mui/material/colors";
 import DeleteForever from "@mui/icons-material/DeleteForever";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { css, cx } from "@emotion/css";
+import { css } from "@emotion/css";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -26,7 +26,7 @@ import EditTaskModal from "./components/EditTaskModal";
 import TaskTable from "./components/TaskTable";
 import DeleteSingleTaskModal from "./components/DeleteSingleTaskModal";
 import DeleteMultipleTaskModal from "./components/DeleteMultipleTaskModal";
-import "./components/UI/LoadingScreen.css";
+import "./components/UI/BackgroundScreen.css";
 import ColorButton from "./components/UI/ColorButton";
 
 export const App = () => {
@@ -61,7 +61,6 @@ export const App = () => {
   const [IsSomeTaskSelected, setIsSomeTaskSelected] = useState(false);
 
   useEffect(() => {
-    console.log("USE_EFFECT:", IsSomeTaskSelected);
     setIsSomeTaskSelected(MultipleDeletingTask.length > 0 ? true : false);
   }, [MultipleDeletingTask, IsSomeTaskSelected]);
 
@@ -71,15 +70,12 @@ export const App = () => {
     get(child(dbRef, "tasks/"))
       .then((snapshot) => {
         if (snapshot.exists()) {
-          console.log("Getting Data from Database");
-
           const DB_TASKS = snapshot
             .val()
             .filter((task) => typeof task !== "undefined");
 
           setIsLoading(false);
           dispatch(tasksActions.setTasks(DB_TASKS));
-          console.log("Data Received!");
         } else {
           console.log("No data available");
           setIsLoading(false);
@@ -101,8 +97,6 @@ export const App = () => {
     dispatch(NewTaskModalActions.show());
   };
 
-  console.log("App.js Multiple Delete:", MultipleDeletingTask);
-  console.log("App.js", ShowDeleteMultipleTaskModal);
   const maxid =
     tasks.length === 0
       ? 1

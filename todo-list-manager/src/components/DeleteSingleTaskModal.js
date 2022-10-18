@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { app, db } from "../configs/DBConfig";
+import { db } from "../configs/DBConfig";
 import { ref, set } from "firebase/database";
 
-import { css, cx } from "@emotion/css";
+import { css } from "@emotion/css";
 
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -18,7 +18,6 @@ import { tasksActions } from "../store/AllTaskSlice";
 import { grey } from "@mui/material/colors";
 
 const DELETE_DB = (task) => {
-  console.log(task);
   const refrence = ref(db, "/tasks/" + task.id);
   set(refrence, null);
 };

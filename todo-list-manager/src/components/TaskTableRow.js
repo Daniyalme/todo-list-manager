@@ -45,7 +45,6 @@ const TaskTableRow = (props) => {
   };
 
   const DeleteButtonClickHandler = () => {
-    console.log(row);
     dispatch(DeleteSingleTaskActions.ShowModal(row));
     // dispatch(tasksActions.deleteMultipleTasks([row]));
   };

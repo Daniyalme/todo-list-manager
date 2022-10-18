@@ -11,9 +11,12 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
 const TaskTable = (props) => {
-  const [EmptyTasks, setEmptyTasks] = useState(
-    props.length === 0 ? true : false
-  );
+  const [EmptyTasks, setEmptyTasks] = useState(true);
+  const Tasks = useSelector((state) => state.tasks.AllTasks);
+
+  useEffect(() => {
+    setEmptyTasks(props.items.length === 0 ? true : false);
+  }, [Tasks, EmptyTasks]);
 
   return (
     <Fragment>

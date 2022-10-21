@@ -1,2 +1,2 @@
 # todo-list-manager
-This project is a responsive Todo-List Manager
+A responsive Todo-List Manager created with ReactJS using Material UI components

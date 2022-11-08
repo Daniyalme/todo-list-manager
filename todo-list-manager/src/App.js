@@ -121,8 +121,13 @@ export const App = () => {
           {ShowDeleteSingleTaskModal && <DeleteSingleTaskModal />}
           {ShowDeleteMultipleTaskModal && <DeleteMultipleTaskModal />}
           {!IsLoading && (
-            <div
-              className={css`
+            <Fade
+              in={!IsLoading}
+              timeout={{ enter: 1000 }}
+              style={{ transitionDelay: "300ms" }}
+            >
+              <div
+                className={css`
             position: relative;
             width: 60%;
             z-index=100;
@@ -132,72 +137,73 @@ export const App = () => {
             background-color: #ffffff;
             border-radius: 23px;
             height:100%;
-              `}
-            >
-              <Toolbar
-                sx={{
-                  pl: { sm: 2 },
-                  pr: { xs: 1, sm: 1 },
-                }}
-                className={css`
-                  padding: 1% 5% 0 5% !important;
-                `}
+            `}
               >
-                <MenuIcon fontSize="large" color="primary" />
-                <Typography
-                  sx={[{ flex: "1 1 100%" }, { pl: 1 }]}
-                  variant="h5"
-                  id="tableTitle"
-                  component="div"
-                  color={"#212121"}
-                  align="left"
+                <Toolbar
+                  sx={{
+                    pl: { sm: 2 },
+                    pr: { xs: 1, sm: 1 },
+                  }}
+                  className={css`
+                    padding: 1% 5% 0 5% !important;
+                  `}
                 >
-                  {"Tasks"}
-                </Typography>
-                <div>
-                  <Fade in={IsSomeTaskSelected}>
-                    <Button
-                      sx={[
-                        { "&: hover": { color: red[900] } },
-                        { color: red[700] },
-                        { borderColor: red[700] },
-                        { borderRadius: 60 },
-                        { mr: 1, pl: 1, pr: 1 },
-                      ]}
-                      size="large"
-                      variant="outlined"
-                      startIcon={<DeleteForever />}
-                      onClick={DeleteButtonClickHandler}
-                    >
-                      Delete
-                    </Button>
-                  </Fade>
-                </div>
-                <div>
-                  <ColorButton
-                    onClick={NewTaskButtonClickHandler}
-                    startIcon={<AddCircleIcon />}
-                    size="large"
-                    sx={[{ borderRadius: 60 }]}
+                  <MenuIcon fontSize="large" color="primary" />
+                  <Typography
+                    sx={[{ flex: "1 1 100%" }, { pl: 1 }]}
+                    variant="h5"
+                    id="tableTitle"
+                    component="div"
+                    color={"#212121"}
+                    align="left"
                   >
-                    {/* <AddCircleIcon fontSize="medium" /> */}
-                    {"Add"}
-                  </ColorButton>
+                    {"Tasks"}
+                  </Typography>
+                  <div>
+                    <Fade in={IsSomeTaskSelected}>
+                      <Button
+                        sx={[
+                          { "&: hover": { color: red[900] } },
+                          { color: red[700] },
+                          { borderColor: red[700] },
+                          { borderRadius: 60 },
+                          { mr: 1, pl: 1, pr: 1 },
+                        ]}
+                        size="large"
+                        variant="outlined"
+                        startIcon={<DeleteForever />}
+                        onClick={DeleteButtonClickHandler}
+                      >
+                        Delete
+                      </Button>
+                    </Fade>
+                  </div>
+                  <div>
+                    <ColorButton
+                      onClick={NewTaskButtonClickHandler}
+                      startIcon={<AddCircleIcon />}
+                      size="large"
+                      sx={[{ borderRadius: 60 }]}
+                    >
+                      {/* <AddCircleIcon fontSize="medium" /> */}
+                      {"Add"}
+                    </ColorButton>
+                  </div>
+                </Toolbar>
+                <div
+                  className={css`
+                    position: relative;
+                    width: 90%;
+                    padding-left: 5%;
+                    padding-right: 5%;
+                    padding-top: 5%;
+                    padding-bottom: 5%;
+                  `}
+                >
+                  <TaskTable items={tasks} />
                 </div>
-              </Toolbar>
-              <div
-                className={css`
-                  position: relative;
-                  width: 90%;
-                  padding-left: 5%;
-                  padding-right: 5%;
-                  padding-top: 5%;
-                  padding-bottom: 5%;
-                `}
-              >
-                <TaskTable items={tasks} />
               </div>
-            </div>
+            </Fade>
           )}
           <svg
             className="waves"
